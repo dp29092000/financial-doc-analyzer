@@ -6,7 +6,7 @@ from langchain_community.document_loaders import PDFPlumberLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import Chroma
 from langchain.prompts import PromptTemplate
-from langchain.chains import RetrievalQA
+# from langchain.chains import RetrievalQA
 from langchain_groq import ChatGroq
 from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from langchain.retrievers import ContextualCompressionRetriever
@@ -85,13 +85,11 @@ if uploaded_file is not None:
     if st.button("Get Answer"):
         if question:
             with st.spinner("Generating Answer..."):
-                chain = RetrievalQA.from_chain_type(
-                    llm=llm,
-                    retriever=retriever,
-                    chain_type_kwargs={"prompt": prompt}
-                    )                      
-                response = chain.invoke({"query": question})
-                st.markdown(response["result"])
+                docs = retriever.invoke(question)
+                context = "\n\n".join([doc.page_content for doc in docs])
+                chain = prompt | llm
+                response = chain.invoke({"context": context, "question": question})
+                st.markdown(response.content)
                 
         else:
             st.warning("Please enter your Question!")
