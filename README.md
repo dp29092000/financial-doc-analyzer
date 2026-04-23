@@ -4,7 +4,7 @@ An AI-powered RAG (Retrieval Augmented Generation) application that lets users
 upload financial documents (PDF) and ask natural language questions, 
 getting accurate answers grounded in the document content.
 
-🚀 **[Live Demo](URL_HERE)**
+🚀 **[Live Demo]**: https://huggingface.co/spaces/dp29092k/financial-doc-analyzer
 
 ## Problem Statement
 
